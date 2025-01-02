@@ -13,12 +13,12 @@ export default defineConfig({
     }
   },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    exclude: ['lucide-react']
   },
   define: {
     'process.env': {}
   },
   build: {
-    outDir: 'dist', // Ensures the output directory is set to "dist"
+    outDir: 'dist' // Explicitly set the output directory
   }
 });
