@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Archivo+Black&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-light text-dark font-sans;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply px-6 py-3 font-bold border-2 border-dark shadow-brutal hover:shadow-none transition-shadow duration-200 active:translate-x-1 active:translate-y-1;
+  }
+  
+  .btn-primary {
+    @apply btn bg-primary text-white;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-secondary text-white;
+  }
+  
+  .input {
+    @apply w-full px-4 py-2 border-2 border-dark shadow-brutal focus:outline-none focus:shadow-none transition-shadow duration-200;
+  }
+  
+  .card {
+    @apply bg-white border-2 border-dark p-6 shadow-brutal;
+  }
+}
+
+/* Calendar customization */
+.react-calendar {
+  width: 100% !important;
+  border: none !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.react-calendar__tile {
+  padding: 1em 0.5em !important;
+  position: relative;
+  height: 100%;
+}
+
+.react-calendar__tile--active {
+  background: #3b82f6 !important;
+  color: white !important;
+}
+
+.react-calendar__tile--now {
+  background: #dbeafe !important;
+}
