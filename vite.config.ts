@@ -17,5 +17,8 @@ export default defineConfig({
   },
   define: {
     'process.env': {}
+  },
+  build: {
+    outDir: 'dist', // Ensures the output directory is set to "dist"
   }
 });
