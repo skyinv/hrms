@@ -38,14 +38,14 @@ export const useAttendanceStats = () => {
         const workingDays = getWorkingDays(attendanceData);
 
         attendanceData.forEach((doc) => {
-          const data = doc.data();
-          const punchInTime = new Date(data.punchIn.toDate());
-          if (data.punchOut) present++;
-          if (!data.punchOut) incomplete++;
-          if (punchInTime.getHours() > 9 || (punchInTime.getHours() === 9 && punchInTime.getMinutes() > 30)) {
-            late++;
-          }
-        });
+  const data = doc.data();
+  const punchInTime = new Date(data.punchIn.toDate());
+  if (data.punchOut) present++;
+  if (!data.punchOut) incomplete++;
+  if (punchInTime.getHours() > 10 || (punchInTime.getHours() === 10 && punchInTime.getMinutes() > 0)) { // Changed to 10:00 AM
+    late++;
+  }
+});
 
         setStats({
           present,
