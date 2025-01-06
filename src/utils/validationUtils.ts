@@ -1,6 +1,6 @@
 export const validatePunchOut = (date: Date) => {
   const minTime = new Date();
-  minTime.setHours(18, 30, 0);
+  minTime.setHours(18, 0, 0); // Changed to 6:00 PM
   return date >= minTime;
 };
 
