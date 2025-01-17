@@ -2,9 +2,8 @@ import { format, isAfter, isBefore, setHours, setMinutes, differenceInHours, dif
 import { formatInTimeZone } from 'date-fns-tz';
 
 const TIMEZONE = 'Asia/Kolkata';
-const WORKDAY_START = { hours: 10, minutes: 0 }; // Changed to 10:00 AM
-const FULL_DAY_HOURS = 9; // Changed to 9 hours
-const HALF_DAY_HOURS = 4.5; // Changed to 4.5 hours (half of full day)
+const WORKDAY_START = { hours: 10, minutes: 0 }; 
+const WORKDAY_END = { hours: 18, minutes: 0 }; // 6:00 PM
 
 export const getIndianTime = (date: Date = new Date()): Date => {
   return new Date(formatInTimeZone(date, TIMEZONE, "yyyy-MM-dd'T'HH:mm:ssXXX"));
@@ -23,8 +22,12 @@ export const calculateWorkingHours = (punchIn: Date, punchOut: Date): number => 
 };
 
 export const determineAttendanceStatus = (workingHours: number): 'present' | 'half-day' => {
-  return workingHours >= FULL_DAY_HOURS ? 'present' : 
-         workingHours >= HALF_DAY_HOURS ? 'half-day' : 'absent';
+  // Assuming FULL_DAY_HOURS and HALF_DAY_HOURS are defined elsewhere
+  return workingHours >= FULL_DAY_HOURS
+    ? 'present'
+    : workingHours >= HALF_DAY_HOURS
+    ? 'half-day'
+    : 'absent';
 };
 
 export const formatTime = (date: Date | null): string => {
