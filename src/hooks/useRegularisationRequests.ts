@@ -14,18 +14,19 @@ export const useRegularisationRequests = () => {
         const requestsRef = collection(db, 'regularisation_requests');
         const q = query(requestsRef, where('status', '==', 'pending'));
         const querySnapshot = await getDocs(q);
-        
+
         const requestsData = await Promise.all(
           querySnapshot.docs.map(async (doc) => {
             const data = doc.data();
             const employee = await fetchEmployeeData(data.employeeId);
             return {
               id: doc.id,
+              employeeId: data.employeeId, // Include employee ID
               employeeName: employee?.name || 'Unknown',
               ...data,
               date: data.date.toDate(),
-              loginTime: data.loginTime.toDate(),
-              logoutTime: data.logoutTime.toDate(),
+              punchIn: data.punchIn?.toDate() || null, // Properly format punchIn
+              punchOut: data.punchOut?.toDate() || null, // Properly format punchOut
             };
           })
         );
