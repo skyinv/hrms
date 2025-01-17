@@ -1,21 +1,21 @@
 import { useState, useEffect } from 'react';
-import { collection, query, where, getDocs, addDoc, updateDoc, doc } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { AttendanceRecord } from '../types';
 import { getIndianTime, isLateLogin, calculateWorkingHours, determineAttendanceStatus } from '../utils/dateUtils';
 import { getCurrentPosition } from '../utils/dateUtils';
 
-export const useAttendance = (employeeId: string) => {
+export const useAttendance = (employeeId: string, selectedDate: Date) => {
   const [attendance, setAttendance] = useState<AttendanceRecord[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch attendance records
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
         const q = query(
           collection(db, 'attendance'),
-          where('employeeId', '==', employeeId)
+          where('employeeId', '==', employeeId),
+          where('date', '==', selectedDate)
         );
         const snapshot = await getDocs(q);
         const records = snapshot.docs.map(doc => ({
@@ -31,7 +31,7 @@ export const useAttendance = (employeeId: string) => {
     };
 
     fetchAttendance();
-  }, [employeeId]);
+  }, [employeeId, selectedDate]);
 
   // Punch In function
   const punchIn = async () => {
@@ -67,15 +67,15 @@ export const useAttendance = (employeeId: string) => {
     try {
       const now = getIndianTime();
       const attendanceRef = doc(db, 'attendance', attendanceId);
-      
+
       // Get current attendance record
       const attendanceDoc = await getDocs(query(
         collection(db, 'attendance'),
         where('id', '==', attendanceId)
       ));
-      
+
       const currentAttendance = attendanceDoc.docs[0].data() as AttendanceRecord;
-      
+
       if (currentAttendance.punchIn) {
         const workingHours = calculateWorkingHours(currentAttendance.punchIn, now);
         const status = determineAttendanceStatus(workingHours);
@@ -98,4 +98,4 @@ export const useAttendance = (employeeId: string) => {
     punchIn,
     punchOut
   };
-}; 
+};
